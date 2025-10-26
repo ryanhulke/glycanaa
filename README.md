@@ -10,20 +10,19 @@ We present **GlycanAA**, an all-atom glycan modeling framework that represents g
 
 ![result](assets/result.png)
 
-This codebase is based on PyTorch and [TorchDrug](https://torchdrug.ai/), a powerful and flexible machine learning platform for drug modeling. It supports training and inference with multiple GPUs or multiple machines.
+This codebase is now built entirely on PyTorch 2.x. A lightweight compatibility layer that mimics the required TorchDrug APIs is included in the repository, so no external TorchDrug installation is required. The implementation works with CUDA 12.x capable GPUs and the standard PyTorch 2 runtime.
 
 ## Installation ##
 
 You may install the dependencies of GlycanAA as below. 
-Generally, they work with Python 3.8/3.9 and PyTorch version >= 1.8.0.
+Generally, they work with Python 3.9/3.10 and PyTorch version >= 2.0.
 
 ```bash
-conda create -n torchdrug python=3.9
-conda activate torchdrug
+conda create -n glycanaa python=3.10
+conda activate glycanaa
 
-conda install --yes pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.3 -c pytorch
+conda install --yes pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
 conda install --yes pyg pytorch-scatter pytorch-cluster -c pyg
-pip install torchdrug
 pip install pyyaml easydict scipy fair-esm
 pip install dill biopandas biopython e3nn wandb tensorboard tensorboardX
 pip install glycowork[draw]
