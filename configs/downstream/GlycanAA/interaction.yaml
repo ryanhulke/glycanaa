@@ -12,25 +12,25 @@ dataset:
   bond_feature: null              # for Protein
 
 task:
-  class: InteractionPrediction
+  class: GlycanProteinInteraction
   model:
-    class: ESM
-    path: ~/scratch/esm-model-weights/
-    model: ESM-1b
-    readout: mean
-  model2:
-    class: GlycanAA
-    num_unit: 210
-    num_relation: 89
-    input_dim: 128
-    hidden_dims: [128, 128, 128]
-    concat_hidden: True
-    batch_norm: True
-    activation: gelu
-    readout: dual
+    class: GlycanProteinAttention
+    glycan_model:
+      class: GlycanAA
+      num_unit: 210
+      num_relation: 89
+      input_dim: 128
+      hidden_dims: [128, 128, 128]
+      concat_hidden: True
+      batch_norm: True
+      activation: gelu
+      readout: dual
+    protein_cache_path: cache/protein_embeddings.pt
+    dropout: 0.1
+    heads: 8
+    dim_head: 64
   criterion: mse
   metric: [ "mae", "rmse", "spearmanr" ]
-  num_mlp_layer: 2
 
 metric: root mean squared error [interaction]
 
@@ -46,6 +46,5 @@ engine:
 train:
   num_epoch: 10
 
-model_checkpoint_2: {{ ckpt }}
-fix_encoder: True
-lr_ratio_2: 0.1
+model_checkpoint: {{ ckpt }}
+load_unsupervised: True
